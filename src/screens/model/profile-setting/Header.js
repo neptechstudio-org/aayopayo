@@ -8,10 +8,10 @@ import { APP_COLOR } from '../../../config';
 const CustomeHeader = ({ updateModalValue }) => (
   <Header style={{ backgroundColor: APP_COLOR }}>
     <Body>
-      <Text style={{ color: '#fff', fontSize: 20 }}>Contact Us</Text>
+      <Text style={{ color: '#fff', fontSize: 20 }}>Profile Setting</Text>
     </Body>
     <Right>
-      <Icon style={{ color: '#fff' }} name="close" onPress={() => updateModalValue('modalContactuShow', false)} />
+      <Icon style={{ color: '#fff' }} name="close" onPress={() => updateModalValue('showProfileModal', false)} />
     </Right>
   </Header>
 );

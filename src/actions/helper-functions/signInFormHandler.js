@@ -1,14 +1,16 @@
 import axios from 'axios';
 import querystring from 'querystring';
-import { setAsyncData, multiSetAsync } from '../../common/AsycstrorageAaayopayo';
+import { setAsyncData, multiSetAsync, updateAsyncData } from '../../common/AsycstrorageAaayopayo';
 import { BASE_URL } from '../../config';
 
 export const signInButtonPressHandler = async (state, dispatch, navigation, updateFormValue, updateMainValue) => {
   const {
     email, password, key, remember,
   } = state.registerForm;
+  dispatch(updateFormValue('success', ''));
+  dispatch(updateFormValue('error', ''));
+  dispatch(updateFormValue('loading', true));
   if ((email !== '') && (password !== '')) {
-    dispatch(updateFormValue('loading', true));
     try {
       const response = await axios.post('https://www.aayopayo.com/app/app_login.php', querystring.stringify({ email, password, auth: key, type: 'user' }));
       dispatch(updateFormValue('loading', false));
@@ -76,10 +78,11 @@ export const resetButtonPressHelper = async (
 export const submitMessageButtonPressHelper = async (
   state, dispatch, navigattion, updateFormValue,
 ) => {
+  dispatch(updateFormValue('success', ''));
+  dispatch(updateFormValue('error', ''));
+  dispatch(updateFormValue('loading', true));
   const { email, full_name, phone_number, message } = state.registerForm;  //eslint-disable-line
   if ((email !== '') && (full_name !== '') && (phone_number !== '') && (message !== '')) {  //eslint-disable-line
-    dispatch(updateFormValue('error', ''));
-    dispatch(updateFormValue('loading', true));
     try {
       const response = await axios.post(`${BASE_URL}/sendContactMessage.php`, querystring.stringify({ email, full_name, phone_number, message }));
       dispatch(updateFormValue('loading', false));
@@ -94,32 +97,7 @@ export const submitMessageButtonPressHelper = async (
     dispatch(updateFormValue('error', 'Fill all the fields'));
   }
 };
-
-export const changePasswordButtonPressHelper = async (
-  state, dispatch, navigattion, updateFormValue,
-) => {
-  const { password, opassword, cpassword } = state.registerForm;
-  if ((password !== '') && (opassword !== '') && (cpassword !== '')) {
-    if (password === cpassword) {
-      dispatch(updateFormValue('error', ''));
-      dispatch(updateFormValue('loading', true));
-      try {
-        const response = await axios.post(`${BASE_URL}/changePassword.php`, querystring.stringify({ password, opassword }));
-        dispatch(updateFormValue('loading', false));
-        dispatch(updateFormValue('success', 'Message successfully submitted we will contact you soon'));
-        if (response.data.status === 'success') {
-          dispatch(updateFormValue('loading', false));
-        }
-      } catch (e) {
-        dispatch(updateFormValue('error', 'Failed to send message'));
-      }
-    } else {
-      dispatch(updateFormValue('error', 'Password mismatch'));
-    }
-  } else {
-    dispatch(updateFormValue('error', 'Fill all the fields'));
-  }
-};
+// 9826854519
 
 export const signOutButtonPressHandler = async (
   state, dispatch, navigation, updateFormValue, updateMainValue,
@@ -130,5 +108,47 @@ export const signOutButtonPressHandler = async (
   dispatch(updateFormValue('asyncLoading', false));
   dispatch(updateFormValue('loginStatus', false));
   dispatch(updateMainValue('userId', null));
-  // navigation.navigate.closeDrawer();
+  navigation.closeDrawer();
+};
+
+export const changePasswordButtonPressHelper = async (
+  state, dispatch, navigation, updateFormValue, updateMainValue, updateModalValue,
+) => {
+  dispatch(updateFormValue('success', ''));
+  dispatch(updateFormValue('error', ''));
+  dispatch(updateFormValue('loading', true));
+  const { password, opassword, cpassword } = state.registerForm;
+  const { userId } = state.main;
+  if ((password !== '') && (opassword !== '') && (cpassword !== '')) {
+    if (password === cpassword) {
+      try {
+        const response = await axios.post(`${BASE_URL}/app_change_password.php?auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV`, querystring.stringify({ uid: userId.id, npass: password, opass: opassword, vpass: cpassword }));
+        dispatch(updateFormValue('loading', false));
+        const { data } = response;
+        // console.log('response of change passWord', response.data);
+        if (!data.error) {
+          dispatch(updateFormValue('loading', false));
+          dispatch(updateFormValue('success', 'Your password has been changed successfully !'));
+          dispatch(updateFormValue('password', ''));
+          dispatch(updateFormValue('opassword', ''));
+          dispatch(updateFormValue('cpassword', ''));
+          signOutButtonPressHandler(state, dispatch, navigation, updateFormValue, updateMainValue);
+          navigation.navigate('SignIn');
+          dispatch(updateModalValue('showProfileModal', false));
+        } else {
+          dispatch(updateFormValue('loading', false));
+          dispatch(updateFormValue('error', data.message));
+        }
+      } catch (e) {
+        dispatch(updateFormValue('loading', false));
+        dispatch(updateFormValue('error', 'Failed to send message'));
+        throw e;
+      }
+    } else {
+      dispatch(updateFormValue('loading', false));
+      dispatch(updateFormValue('error', 'Password mismatch'));
+    }
+  } else {
+    dispatch(updateFormValue('error', 'Fill all the fields'));
+  }
 };

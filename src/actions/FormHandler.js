@@ -9,6 +9,7 @@ import {
   signOutButtonPressHandler,
 } from './helper-functions/signInFormHandler';
 import { updateMainValue } from './fetchInitialAppData';
+import { updateModalValue } from './ModalHandler';
 
 export const updateFormValue = (key, value) => (
   {
@@ -36,7 +37,8 @@ export const buttonPressHandler = (content, navigation) => (
         submitMessageButtonPressHelper(getState(), dispatch, navigation, updateFormValue);
         break;
       case 'ChangePassword':
-        changePasswordButtonPressHelper(getState(), dispatch, navigation, updateFormValue);
+        console.log('change password method called in form handler');
+        changePasswordButtonPressHelper(getState(), dispatch, navigation, updateFormValue, updateMainValue, updateModalValue);
         break;
       case 'SignOut':
         signOutButtonPressHandler(getState(), dispatch, navigation, updateFormValue, updateMainValue);

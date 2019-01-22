@@ -3,6 +3,7 @@ import { UPDATE_MODAL_VALUE } from '../actions/types';
 const INITIAL_MODAL_STATE = {
   modalNotificationShow: false,
   modalAddCoinShow: false,
+  modalContactuShow: false,
   readNotificationSpinner: null,
   notificationReadStatus: true,
   showProfileModal: false,

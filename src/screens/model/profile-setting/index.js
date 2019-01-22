@@ -13,7 +13,7 @@ class ContactUs extends Component {
     return (
       <Modal
         backdropColor="null"
-        isVisible={modal.modalContactuShow}
+        isVisible={modal.showProfileModal}
         animationInTiming={500}
         animationOutTiming={500}
         style={{ flex: 1, backgroundColor: '#fff', margin: 0 }}

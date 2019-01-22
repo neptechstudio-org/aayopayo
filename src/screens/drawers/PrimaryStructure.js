@@ -28,6 +28,10 @@ export const contents = (status) => {
       element: 'touchable', iconRight: 'help-circle', label: 'About Us', iconLeft: null,
     },
     {
+      element: 'touchable', iconRight: 'at', label: 'Contact Us', iconLeft: null,
+    },
+
+    {
       element: 'touchable', iconRight: status ? 'log-out' : 'log-in', label: status ? 'Sign Out' : 'Sign In', iconLeft: null,
     },
   ];

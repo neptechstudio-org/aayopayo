@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { AppLoading } from 'expo';
 import { connect } from 'react-redux';
-import { Spinner } from 'native-base';
 import nativeBaseHandler from '../common/nativeBaseHander';
 import TabScreen from './tab/home';
 import * as actions from '../actions';

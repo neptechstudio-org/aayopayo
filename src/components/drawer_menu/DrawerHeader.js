@@ -33,13 +33,13 @@ class DrawerHeader extends Component {
           />
           {main.userId && (
             <View style={{ marginLeft: 10 }}>
-              <Text style={{ fontWeight: 'bold', color: '#fff' }}>
+              <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 12 }}>
               Name :
-                <Text style={{ color: '#FFF', fontStyle: 'italic' }}>{` ${main.userId.name}`}</Text>
+                <Text style={{ color: '#FFF', fontStyle: 'italic', fontSize: 12 }}>{` ${main.userId.name}`}</Text>
               </Text>
-              <Text style={{ fontWeight: 'bold', color: '#fff' }}>
+              <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 12 }}>
               Email :
-                <Text style={{ color: '#FFF', fontStyle: 'italic' }}>{` ${main.userId.email}`}</Text>
+                <Text style={{ color: '#FFF', fontStyle: 'italic', fontSize: 12 }}>{` ${main.userId.email}`}</Text>
               </Text>
             </View>
           )}

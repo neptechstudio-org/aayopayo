@@ -4,6 +4,8 @@ const INITIAL_MAIN_STATE = {
   liveProduct: [],
   upcomingProduct: [],
   closedProduct: [],
+  featuredProduct: [],
+  imageSlider: [],
   loading: false,
   success: false,
   error: null,

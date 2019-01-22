@@ -27,7 +27,14 @@ export const fetchProduct = () => async (dispatch, getState) => {
     if (!UpcomingData.data.error) {
       dispatch(updateMainValue('closedProduct', objectParser(closedData.data, 3)));
     }
-    // console.log('product data', 'live= ', liveData.data, 'upcoming data = ', UpcomingData.data, 'closed data =', closedData.data);
+    const featuredProduct = await axios.get('https://www.aayopayo.com/app/app_get_featured_products.php?auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV&type=all');
+    if (!featuredProduct.data.error) {
+      dispatch(updateMainValue('featuredProduct', objectParser(featuredProduct.data, 3)));
+    }
+    const imageSlider = await axios.get('https://www.aayopayo.com/app/app_get_slider_list.php?auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV');
+    if (!imageSlider.data.error) {
+      dispatch(updateMainValue('imageSlider', objectParser(imageSlider.data, 3)));
+    }
   } catch (e) {
     return e;
   }

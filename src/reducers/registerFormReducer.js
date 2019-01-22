@@ -15,10 +15,10 @@ const INITIAL_REGISTER_FORM_STATE = {
   message: '',
   remember: false,
   error: '',
+  newPassword: '',
   loading: false,
   success: false,
   loginSuccess: false,
-  internetStatus: null,
   asyncLoading: false,
 };
 

@@ -19,7 +19,6 @@ class CustomContent extends Component {
     // console.log('props in contact us', this.props.registerForm);
     return (
       <Container>
-        {renderScreenHeader('Contact Us', navigation)}
         <Content>
           <Form contents={contactUsStructure()} {...this.props} />
           <View style={{ marginTop: 30, justifyContent: 'center', alignItems: 'center' }}>

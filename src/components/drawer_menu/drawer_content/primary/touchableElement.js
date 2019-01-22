@@ -4,6 +4,7 @@ import { Icon, Badge } from 'native-base';
 import { APP_COLOR } from '../../../../config';
 
 const pressHandler = (navigationState, navigation, props, content) => {
+  console.log('update model value for ', props.updateModalValue);
   switch (navigationState) {
     case 'OrderNotification':
       navigation.closeDrawer();
@@ -12,7 +13,9 @@ const pressHandler = (navigationState, navigation, props, content) => {
     case 'orderHistory':
       props.buttonPressHandler(content);
       break;
-    case 'ProfleSetting':
+    case 'ProfileSetting':
+      navigation.closeDrawer();
+      props.updateModalValue('showProfileModal', true);
       break;
     case 'DeliveryAddress':
       props.buttonPressHandler(content);
@@ -20,11 +23,15 @@ const pressHandler = (navigationState, navigation, props, content) => {
     case 'AboutUs':
       Linking.openURL('https://www.aayopayo.com/about.php');
       break;
+    case 'ContactUs':
+      navigation.closeDrawer();
+      props.updateModalValue('modalContactuShow', true);
+      break;
     case 'SignIn':
-      navigation.navigate(navigationState);
+      navigation.navigate(navigationState, navigation);
       break;
     case 'SignOut':
-      props.buttonPressHandler(content);
+      props.buttonPressHandler(content, navigation);
       break;
     default:
       return null;
@@ -55,7 +62,7 @@ const touchableElement = (content, id, navigation, props) => {
             backgroundColor: APP_COLOR,
           }}
           >
-            {id === 0 && props.modal.notificationReadStatus && ( //eslint-disable-line
+            {props.main.userId && id === 0 && props.modal.notificationReadStatus && ( //eslint-disable-line
             <View style={{ position: 'absolute', width: 60, height: 60 }}>
               <Badge
                 style={{
@@ -87,7 +94,7 @@ const touchableElement = (content, id, navigation, props) => {
               marginLeft: 10,
             }}
           >
-            <Text style={{ fontWeight: 'bold' }}>{content.label}</Text>
+            <Text>{content.label}</Text>
           </View>
         </View>
         {content.iconRight && (
