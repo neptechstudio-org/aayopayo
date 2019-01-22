@@ -24,16 +24,28 @@ class ClosedCard extends Component {
           <Text style={{ fontSize: 15, fontWeight: 'bold' }}>
             {name}
           </Text>
-          <Button
-            danger
-            full
-            onPress={() => updateMainValue('showProductDetails', id)}
-            style={{ marginTop: 10 }}
-          >
-            <Text>
-            Details
-            </Text>
-          </Button>
+          <View style={{ flexDirection: 'row' }}>
+            <Button
+              danger
+              full
+              onPress={() => updateMainValue('showProductDetails', id)}
+              style={{ marginTop: 10, marginLeft: 10 }}
+            >
+              <Text>
+              Buy
+              </Text>
+            </Button>
+            <Button
+              danger
+              full
+              onPress={() => updateMainValue('showProductDetails', id)}
+              style={{ marginTop: 10, marginLeft: 10 }}
+            >
+              <Text>
+              Details
+              </Text>
+            </Button>
+          </View>
         </View>
       </Card>
     );
