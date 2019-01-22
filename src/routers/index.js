@@ -26,6 +26,6 @@ const RootRouter = createDrawerNavigator({
   Home: stackNavigator,
 }, {
   contentComponent: MainDrawer,
-  drawerWidth: SCREEN_WIDTH * 0.9,
+  drawerWidth: SCREEN_WIDTH * 0.8,
 });
 export default createAppContainer(RootRouter);

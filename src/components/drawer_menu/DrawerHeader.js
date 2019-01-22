@@ -17,7 +17,7 @@ class DrawerHeader extends Component {
     if (header.title === 'Menu') {
       return (
         <View style={{
-          width: SCREEN_WIDTH * 0.9,
+          width: SCREEN_WIDTH * 0.8,
           height: SCREEN_HEIGHT * 0.25,
           backgroundColor: APP_COLOR,
           justifyContent: 'space-around',
@@ -27,17 +27,17 @@ class DrawerHeader extends Component {
             source={header.logo}
             resizeMode="stretch"
             style={{
-              width: SCREEN_WIDTH * 0.9,
+              width: SCREEN_WIDTH * 0.8,
               height: SCREEN_HEIGHT * 0.15,
             }}
           />
           {main.userId && (
             <View style={{ marginLeft: 10 }}>
-              <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 12 }}>
+              <Text style={{color: '#fff', fontSize: 12 }}>
               Name :
                 <Text style={{ color: '#FFF', fontStyle: 'italic', fontSize: 12 }}>{` ${main.userId.name}`}</Text>
               </Text>
-              <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 12 }}>
+              <Text style={{ color: '#fff', fontSize: 12 }}>
               Email :
                 <Text style={{ color: '#FFF', fontStyle: 'italic', fontSize: 12 }}>{` ${main.userId.email}`}</Text>
               </Text>
@@ -48,7 +48,7 @@ class DrawerHeader extends Component {
     }
     return (
       <View style={{
-        width: SCREEN_WIDTH * 0.9,
+        width: SCREEN_WIDTH * 0.8,
         height: SCREEN_HEIGHT * 0.2,
       }}
       >

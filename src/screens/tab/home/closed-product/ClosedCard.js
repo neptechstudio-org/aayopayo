@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Image, View } from 'react-native';
-import { Card, CardItem, Text, Left, Body, Button } from 'native-base';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../../../config';
-import Timer from './Timer';
+import { Card, Text, Button } from 'native-base';
 
-class LiveCarde extends Component {
+class ClosedCard extends Component {
   state = {};
 
   render() {
@@ -17,8 +15,8 @@ class LiveCarde extends Component {
             source={{ uri: image }}
             resizeMode="stretch"
             style={{
-              width: 90,
-              height: 90,
+              width: 100,
+              height: 100,
             }}
           />
         </View>
@@ -26,7 +24,6 @@ class LiveCarde extends Component {
           <Text style={{ fontSize: 15, fontWeight: 'bold' }}>
             {name}
           </Text>
-          <Timer endDate="2019-12-17" endTime="20:44:00" context={this.context} name={name} />
           <Button
             danger
             full
@@ -42,4 +39,4 @@ class LiveCarde extends Component {
     );
   }
 }
-export default LiveCarde;
+export default ClosedCard;

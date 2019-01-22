@@ -68,14 +68,13 @@ export default ({ main }) => {
 
 const styles = StyleSheet.create({
   container: {
-    // alignSelf: 'center',
-    // justifyContent: 'center',
-    // alignItems: 'center',
     width: SCREEN_WIDTH * 0.98,
     height: 100,
-    // backgroundColor: '#f5f5f5',
     borderBottomWidth: 1,
+    alignSelf: 'center',
+    elevation: 1,
     borderBottomColor: '#f5f5f5',
     flexDirection: 'row',
+    marginBottom: 5,
   },
 });
