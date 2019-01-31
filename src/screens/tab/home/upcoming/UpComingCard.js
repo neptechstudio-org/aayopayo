@@ -1,40 +1,38 @@
 import React, { Component } from 'react';
-import { Image, View } from 'react-native';
+import { Image, View, TouchableOpacity, ScrollView } from 'react-native';
 import { Card, Text, Button } from 'native-base';
+import DateTimeFormator from '../../../../common/functions/DateTimeFormator';
+import { SCREEN_WIDTH } from '../../../../config';
 
 class LiveCarde extends Component {
   state = {};
 
   render() {
     const { product, updateMainValue } = this.props;
-    const { name, image, id } = product;
+    const { name, image, id, start_date, start_time } = product;
     return (
-      <Card style={{ width: 200, height: 200 }}>
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <Image
-            source={{ uri: image }}
-            resizeMode="stretch"
-            style={{
-              width: 100,
-              height: 100,
-            }}
-          />
-        </View>
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 15, fontWeight: 'bold' }}>
-            {name}
-          </Text>
-          <Button
-            danger
-            full
+      <Card style={{ width: Math.floor(SCREEN_WIDTH / 2) - 10, height: 200, flexWrap: 'wrap'}}>
+        <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled>
+          <TouchableOpacity
             onPress={() => updateMainValue('showProductDetails', id)}
-            style={{ marginTop: 10 }}
+            style={{ justifyContent: 'center', alignItems: 'center' }}
           >
-            <Text>
-            Details
+            <Image
+              source={{ uri: image }}
+              resizeMode="stretch"
+              style={{
+                width: '100%',
+                height: 150,
+              }}
+            />
+          </TouchableOpacity>
+          <View style={{ justifyContent: 'center', alignItems: 'center', padding: 5 }}>
+            <Text style={{ fontSize: 15, fontWeight: '100', color: 'orange' }}>
+              {name}
             </Text>
-          </Button>
-        </View>
+            <Text style={{ fontSize: 12, color: '#039BE5' }}>{DateTimeFormator(start_date, start_time, 'YYYY-MM-DD hh:mm a')}</Text>
+          </View>
+        </ScrollView>
       </Card>
     );
   }

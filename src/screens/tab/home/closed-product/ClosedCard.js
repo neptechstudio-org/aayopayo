@@ -1,52 +1,38 @@
 import React, { Component } from 'react';
-import { Image, View } from 'react-native';
+import { Image, View, TouchableOpacity, ScrollView } from 'react-native';
 import { Card, Text, Button } from 'native-base';
+import { SCREEN_WIDTH } from '../../../../config';
+import DateTimeFormator from '../../../../common/functions/DateTimeFormator';
 
 class ClosedCard extends Component {
   state = {};
 
   render() {
     const { product, updateMainValue } = this.props;
-    const { name, image, id } = product;
+    const { name, image, id, end_date, end_time } = product;
     return (
-      <Card style={{ width: 200, height: 200 }}>
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <Image
-            source={{ uri: image }}
-            resizeMode="stretch"
-            style={{
-              width: 100,
-              height: 100,
-            }}
-          />
-        </View>
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 15, fontWeight: 'bold' }}>
-            {name}
-          </Text>
-          <View style={{ flexDirection: 'row' }}>
-            <Button
-              danger
-              full
-              onPress={() => updateMainValue('showProductDetails', id)}
-              style={{ marginTop: 10, marginLeft: 10 }}
-            >
-              <Text>
-              Buy
-              </Text>
-            </Button>
-            <Button
-              danger
-              full
-              onPress={() => updateMainValue('showProductDetails', id)}
-              style={{ marginTop: 10, marginLeft: 10 }}
-            >
-              <Text>
-              Details
-              </Text>
-            </Button>
+      <Card style={{ width: Math.floor(SCREEN_WIDTH / 2) - 10, height: 200 }}>
+        <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled>
+          <TouchableOpacity
+            onPress={() => updateMainValue('showProductDetails', id)}
+            style={{ justifyContent: 'center', alignItems: 'center' }}
+          >
+            <Image
+              source={{ uri: image }}
+              resizeMode="stretch"
+              style={{
+                width: '100%',
+                height: 150,
+              }}
+            />
+          </TouchableOpacity>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 15, fontWeight: '100', color: 'orange' }}>
+              {name}
+            </Text>
+            <Text style={{ fontSize: 12, color: '#039BE5' }}>{`Ended On: ${DateTimeFormator(end_date, end_time, 'YYYY-MM-DD')} NPT`}</Text>
           </View>
-        </View>
+        </ScrollView>
       </Card>
     );
   }

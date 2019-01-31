@@ -5,23 +5,25 @@ import { Video } from 'expo';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../config';
 
 const VideoPlayer = ({
-  videoURI, shouldPlay, onPlaybackStatusUpdate, onLoadVideo, onReadyForDisplay,
+  videoContent, shouldPlay, onPlaybackStatusUpdate, onLoadVideo, onReadyForDisplay,
 }) => {
   return (
     <Video
       style={styles.videoStyle}
-      source={{ uri: 'http://clips.vorwaerts-gmbh.de/VfE_html5.mp4' }}
+      source={{ uri: videoContent.video }}
       shouldPlay={shouldPlay}
       resizeMode="contain"
       onPlaybackStatusUpdate={onPlaybackStatusUpdate}
       onLoad={onLoadVideo}
+      // usePoster
       onReadyForDisplay={onReadyForDisplay}
+      // posterSource={{ uri: videoContent.cover }}
     />
   );
 };
 
 VideoPlayer.propTypes = {
-  videoURI: PropTypes.string.isRequired,
+  videoContent: PropTypes.objectOf(PropTypes.any).isRequired,
   shouldPlay: PropTypes.bool.isRequired,
   onPlaybackStatusUpdate: PropTypes.func.isRequired,
   onLoadVideo: PropTypes.func.isRequired,

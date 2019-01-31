@@ -11,6 +11,7 @@ const INITIAL_REGISTER_FORM_STATE = {
   cpassword: '',
   opassword: '',
   dob: '',
+  bidPrice: '',
   agree: false,
   message: '',
   remember: false,

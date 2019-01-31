@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import {
-  View, Header, Body, Right, Title, Text, Icon, Spinner,
+  View, Header, Body, Right, Title, Text, Icon, Spinner, Button
 } from 'native-base';
 import Modal from 'react-native-modal';
 import { SCREEN_WIDTH, APP_COLOR, SCREEN_HEIGHT } from '../config';
@@ -30,16 +30,17 @@ const CustomModal = ({
     <View
       style={styles.contentStyle} // eslint-disable-line
     >
-      <Header style={{ backgroundColor: APP_COLOR }}>
+      <Header style={{ backgroundColor: APP_COLOR, height: 40 }}>
         <Body>
-          <Title><Text style={{ color: '#fff', fontSize: 20 }}>{title}</Text></Title>
+          <Title><Text style={{ color: '#fff', fontSize: 15 }}>{title}</Text></Title>
         </Body>
         <Right>
-          <Icon
-            onPress={() => updateModalValue(modalShow, false)}
-            name="close"
-            style={{ color: '#fff' }}
-          />
+          <Button transparent onPress={() => updateModalValue(modalShow, false)}>
+            <Icon
+              name="close"
+              style={{ color: '#fff' }}
+            />
+          </Button>
         </Right>
       </Header>
       {renderModalContent(children, modal)}

@@ -14,7 +14,7 @@ class index extends Component {
   state={ renderMain: true };
 
   async componentWillMount() {
-    const { updateFormValue, fetchProduct, updateMainValue } = this.props;
+    const { updateFormValue, fetchProduct, updateMainValue, updateModalValue} = this.props;
     await nativeBaseHandler();
     await fetchProduct();
     const loginStatus = await getAsyncData('LOGIN_STATUS');
@@ -22,11 +22,15 @@ class index extends Component {
     const userName = await getAsyncData('USER_NAME');
     const userEmail = await getAsyncData('USER_EMAIL');
     const userPhone = await getAsyncData('USER_PHONE');
+    const userCoins = await getAsyncData('USER_COINS');
+    const cvid = await getAsyncData('NEXT_ADD_VIDEO');
     if (loginStatus === 'true' && loginId) {
+      updateMainValue('userCoins', userCoins);
       updateFormValue('loginStatus', true);
       updateMainValue('userId', { name: userName, email: userEmail, id: loginId, phoneNo: userPhone });
       updateFormValue('full_name', userName);
       updateFormValue('email', userEmail);
+      updateModalValue('videoContent', { cvid });
     } else {
       updateFormValue('loginStatus', false);
     }

@@ -1,7 +1,17 @@
 import { Alert } from 'react-native';
 import axios from 'axios';
+import querystring from 'querystring';
 import { UPDATE_MODAL_VALUE } from './types';
 import { BASE_URL } from '../config';
+import { setAsyncData } from '../common/AsycstrorageAaayopayo';
+import { updateMainValue } from './index';
+
+const objectParser = (obj, clip) => {
+  const array = Object.values(obj);
+  const data = array.slice(0, array.length - clip);
+  // console.log('array value of', data);
+  return data;
+};
 
 const notificationParser = (data) => {
   const notiReadStatus = data.noalert;
@@ -27,13 +37,12 @@ export const updateModalValue = (key, value) => ({
   payload: { key, value },
 });
 
-// https://www.aayopayo.com/app/app_mark_read_alert.php?auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV&uid=1$aid=8
-
-const markNotificationRead = async (userId, dispatch, notifications) => {
+const markNotificationRead = async (userId, dispatch) => {
   try {
-    const response = await axios.post(`${BASE_URL}/app_mark_read_alert.php?auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV&uid=${userId}$aid=8`);
+    const response = await axios.post(`${BASE_URL}/app_mark_read_alert.php?auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV&uid=${userId}`);
     const { data } = response;
-    if (data.error) {
+    if (!data.error) {
+      // console.log('notification marked', data);
       dispatch(updateModalValue('notificationReadStatus', false));
     }
   } catch {
@@ -54,6 +63,7 @@ export const fetchNotifications = () => {
         dispatch(updateModalValue('loading', false));
         if (!data.error) {
           const parsedNotification = notificationParser(data);
+          // console.log('notification after parsing', parsedNotification);
           dispatch(updateModalValue('notificationContent', parsedNotification.notiData));
           dispatch(updateModalValue('notificationReadStatus', parsedNotification.notiReadStatus));
           markNotificationRead(userId.id, dispatch, getState().modal.notificationContent);
@@ -70,20 +80,33 @@ export const fetchNotifications = () => {
   };
 };
 
-// https://www.aayopayo.com/app/app_get_video_ad.php?uid=10&cvid=2&auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV
+export const fetchCoins = async (dispatch, state, updateMainValue, uid) => {
+  // console.log('user in fetch coin', uid);
+  if (uid) {
+    const coinRes = await axios.get(`https://www.aayopayo.com/app/app_num_user_coins.php?uid=${uid}&auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV`);
+    // console.log('coin response', coinRes.data);
+    if (!coinRes.data.error) {
+      dispatch(updateMainValue('userCoins', coinRes.data.numcoins));
+      await setAsyncData('USER_COINS', `${coinRes.data.numcoins}`);
+    }
+  }
+};
 
 export const addCoinHandler = () => {
   // console.log('add coin show is called');
   return async (dispatch, getState) => {
+    const { userId } = getState().main;
+    const { videoContent } = getState().modal;
     dispatch(updateModalValue('addCoinSuccess', false));
     dispatch(updateModalValue('modalAddCoinShow', true));
+    dispatch(updateModalValue('videoContent', { ...videoContent, title: '' }));
     dispatch(updateModalValue('loading', true));
     try {
-      const response = await axios.post(`${BASE_URL}/app_mark_read_alert.php?auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV&uid=1$aid=8`);
+      const response = await axios.get(`https://www.aayopayo.com/app/app_get_video_ad.php?uid=${userId.id}&cvid=${videoContent.cvid}&auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV`);
       dispatch(updateModalValue('loading', false));
-      dispatch(updateModalValue('addCoinVideoUrl', 'http://clips.vorwaerts-gmbh.de/VfE_html5.mp4'));
-      if (response.data.status === 'success') {
-        dispatch(updateModalValue('content', response.data));
+      if (!response.data.error) {
+        dispatch(updateModalValue('videoContent', response.data));
+        await setAsyncData('NEXT_ADD_VIDEO', `${response.data.cvid}`);
       }
     } catch (e) {
       dispatch(updateModalValue('error', 'Faild to fetch VedioUrl'));
@@ -95,13 +118,56 @@ export const addCoinSuccess = () => {
   // console.log('addCoinSuccess called');
   return async (dispatch, getState) => {
     try {
-      const response = await axios.post(`${BASE_URL}/addCoin.php`, { SESSION: 'jfdlkjfalkjfaslja' });
-      dispatch(updateModalValue('addCoinSuccess', true));
-      if (response.data.status === 'success') {
+      const { videoContent } = getState().modal;
+      const { userId, userCoins } = getState().main;
+      const response = await axios.get(`${BASE_URL}/app_add_coin.php?token=${videoContent.token}=&uid=${userId.id}&auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV`);
+      // console.log('addcoin response', response.data);
+      if (!response.data.error) {
+        dispatch(updateMainValue('userCoins', parseInt(userCoins, 10) + parseInt(response.data.cval, 10)));
         dispatch(updateModalValue('addCoinSuccess', true));
+        fetchCoins(dispatch, getState(), updateModalValue, userId.id);
       }
     } catch (e) {
       dispatch(updateModalValue('error', 'Failed to add coins'));
     }
   };
+};
+
+export const doBidHandler = () => {
+  return async (dispatch, getState) => {
+    dispatch(updateModalValue('bidLoading', true));
+    try {
+      const { userId, showProductDetails } = getState().main;
+      const { bidPrice } = getState().registerForm;
+      // console.log('do bid handler called', userId.id, showProductDetails, bidPrice);
+      const bidRes = await axios.post('https://www.aayopayo.com/app/app_do_bid.php', querystring.stringify({ auth: 'AAYOPAAYOHULLAWERQUIPCSTHKVXEMV', id: showProductDetails, uid: userId.id, bid: bidPrice }));
+      dispatch(updateModalValue('bidLoading', false));
+      // console.log('response of bid res', bidRes.data);
+      if (bidRes.data.error) {
+        dispatch(updateModalValue('bidError', bidRes.data.message));
+      }
+      if (bidRes.data.success !== 'flase') {
+        dispatch(updateModalValue('addBidSuccess', 'You are bidded successfully'));
+      }
+    } catch (e) {
+      throw e;
+    }
+  };
+};
+
+export const fetchMyBid = () =>  async (dispatch, getState) => {
+  const { userId } = getState().main;
+  try {
+    dispatch(updateModalValue('showMyBid', true));
+    dispatch(updateModalValue('loading', true));
+    const myBidRes = await axios.get(`${BASE_URL}/app_my_bids.php?auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV&uid=${userId.id}`);
+    console.log('my bid fetch response', myBidRes.data);
+    dispatch(updateModalValue('loading', false));
+    if (!myBidRes.data.error) {
+      const myBidArray = objectParser(myBidRes.data, 3);
+      dispatch(updateModalValue('myBidContent', myBidArray));
+    }
+  } catch (e) {
+    throw e;
+  }
 };

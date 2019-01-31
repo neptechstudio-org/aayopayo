@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import { View, Text } from 'native-base';
 
-const rowRenderHelper = (row, idx) => (
+const rowRenderHelper = (row, idx, userId) => (
   <View key={idx} style={[styles.rowStyle, { backgroundColor: idx % 2 === 0 ? '#fff' : '#f5f5f5' }]}>
     <View style={[styles.columnStyle, { flex: 0.1 }]}><Text>{idx + 1 }</Text></View>
-    <View style={[styles.columnStyle, { flex: 0.8 }]}><Text>{row.fullname}</Text></View>
-    <View style={[styles.columnStyle, { flex: 0.1 }]}><Text>{row.bidamount}</Text></View>
+    <View style={[styles.columnStyle, { flex: 0.8 }]}><Text style={{ color: userId.id === row.userid ? 'orange' : '#000' }}>{row.fullname}</Text></View>
+    <View style={[styles.columnStyle, { flex: 0.1 }]}><Text>{ userId.id === row.userid ? row.bidamount : '*'}</Text></View>
   </View>
 );
 
@@ -19,7 +19,7 @@ export default ({ bidders, userId }) => {
         <View style={[styles.columnStyle, { flex: 0.1 }]}><Text>Bid</Text></View>
       </View>
       <ScrollView style={{ flexGrow: 1, height: 200 }} nestedScrollEnabled>
-        {bidders.map((b, idx) => rowRenderHelper(b, idx))}
+        {bidders.map((b, idx) => rowRenderHelper(b, idx, userId))}
       </ScrollView>
     </View>
   );

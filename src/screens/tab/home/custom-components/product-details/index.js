@@ -11,6 +11,10 @@ class index extends Component {
     return (
       <Modal
         backdropColor="null"
+        animationOut="slideOutLeft"
+        animationIn="slideInRight"
+        animationInTiming={500}
+        animationOutTiming={500}
         isVisible={main.showProductDetails !== null}
         style={{ flex: 1, backgroundColor: '#fff', margin: 0 }}
       >
@@ -20,5 +24,4 @@ class index extends Component {
     );
   }
 }
-
 export default index;

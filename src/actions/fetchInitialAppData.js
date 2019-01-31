@@ -40,6 +40,18 @@ export const fetchProduct = () => async (dispatch, getState) => {
   }
 };
 
+const checkMyBidHelper = (dispatch, getState, bidders) => {
+  const { userId } = getState().main;
+  // console.log('check my bids', userId, getState().main.bidders);
+  const userAvailabilty = bidders.some(data => data.userid === userId.id);
+  if (userAvailabilty) {
+    const myBids = bidders.filter(data => data.userid === userId.id);
+    dispatch(updateMainValue('myBidAmount', myBids.bidamount));
+  } else {
+    dispatch(updateMainValue('myBidAmount', null));
+  }
+};
+
 export const fetchProductDetails = pid => async (dispatch, getState) => {
   try {
     dispatch(updateMainValue('loading', true));
@@ -52,12 +64,16 @@ export const fetchProductDetails = pid => async (dispatch, getState) => {
       dispatch(updateMainValue('error', data.message));
     }
     const bidRes = await axios.get(`https://www.aayopayo.com/app/app_get_bid_list.php?id=${pid}&auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV`);
+    console.log('bid res', bidRes.data, pid);
     dispatch(updateMainValue('loading', false));
     if (!bidRes.data.error) {
       dispatch(updateMainValue('bidders', objectParser(bidRes.data, 4)));
+      checkMyBidHelper(dispatch, getState, objectParser(bidRes.data, 4));
     } else {
       dispatch(updateMainValue('loading', false));
       dispatch(updateMainValue('error', data.message));
+      dispatch(updateMainValue('bidders', objectParser(bidRes.data, 4)));
+      checkMyBidHelper(dispatch, getState, objectParser(bidRes.data, 4));
     }
   } catch (e) {
     dispatch(updateMainValue('loading', false));

@@ -5,7 +5,7 @@ import {
 } from 'native-base';
 import { APP_COLOR, APP_TITLE_TEXT_COLOR } from '../../../../config';
 
-const CustomHeader = ({ navigation, addCoinHandler, registerForm }) => (
+const CustomHeader = ({ navigation, addCoinHandler, registerForm, main }) => (
   <Header style={{ backgroundColor: APP_COLOR }}>
     <Left>
       <Button transparent onPress={() => navigation.openDrawer()}>
@@ -25,7 +25,7 @@ const CustomHeader = ({ navigation, addCoinHandler, registerForm }) => (
         onPress={() => addCoinHandler()}
       >
         <Icon name="logo-usd" style={{ color: 'yellow' }} />
-        <Text style={{ color: 'yellow', maxWidth: 150 }}>{` Coins: ${12345}`}</Text>
+        <Text style={{ color: 'yellow', maxWidth: 150 }}>{` Coins: ${main.userCoins}`}</Text>
         <Icon name="add" style={{ color: 'yellow', height: 20, width: 20 }} />
       </Button>
     </Right>

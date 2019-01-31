@@ -2,6 +2,7 @@ import axios from 'axios';
 import querystring from 'querystring';
 import { setAsyncData, multiSetAsync, updateAsyncData } from '../../common/AsycstrorageAaayopayo';
 import { BASE_URL } from '../../config';
+import { fetchCoins, fetchNotifications } from '../index';
 
 export const signInButtonPressHandler = async (state, dispatch, navigation, updateFormValue, updateMainValue) => {
   const {
@@ -30,6 +31,8 @@ export const signInButtonPressHandler = async (state, dispatch, navigation, upda
         dispatch(updateFormValue('remember', false));
         dispatch(updateFormValue('loginStatus', true));
         dispatch(updateMainValue('userId', { name: data.fname, email: data.email, id: data.uid, phoneNo: data.phone }));
+        await fetchCoins(dispatch, state, updateMainValue, data.uid);
+        await fetchNotifications();
         navigation.navigate('MainScreen');
         if (remember) {
           setAsyncData('LOGIN_REMEMBER', true, dispatch, updateFormValue);
@@ -40,6 +43,8 @@ export const signInButtonPressHandler = async (state, dispatch, navigation, upda
     } catch (e) {
       dispatch(updateFormValue('loading', false));
       dispatch(updateFormValue('error', 'Authentication Faild'));
+      console.log('error in sing in ', e);
+      throw e;
     }
   } else {
     dispatch(updateFormValue('error', 'Fill all the fields'));

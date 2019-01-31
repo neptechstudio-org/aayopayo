@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Slider from 'react-native-slider';
 
-const Controller = ({ sliderValue }) => {
+const Controller = ({ sliderValue, countDownValue }) => {
   return (
     <View style={styles.controllerContaintStyle}>
       <View style={{
@@ -13,7 +13,7 @@ const Controller = ({ sliderValue }) => {
         alignItems: 'center',
       }}
       >
-        <Text style={{ color: 'white', marginRight: 10 }}>4563 Sec</Text>
+        <Text style={{ color: 'white', marginRight: 10 }}>{`${countDownValue} Sec`}</Text>
         <View style={styles.sliderStyle}>
           <Slider
             value={sliderValue}

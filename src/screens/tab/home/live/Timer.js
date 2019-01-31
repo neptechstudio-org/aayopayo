@@ -64,7 +64,7 @@ class Timer extends Component {
     const { time } = this.state;
     return (
       <View>
-        <Text>{this.timerRenderHelper()}</Text>
+        <Text style={{ color: '#039BE5', fontSize: 15 }}>{this.timerRenderHelper()}</Text>
       </View>
     );
   }

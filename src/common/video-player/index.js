@@ -14,7 +14,8 @@ class VideoPlayer extends Component {
     didJustFinish: false,
     shouldPlay: false,
     addFinish: false,
-    sliderValue: 0.8,
+    sliderValue: 0,
+    countDownValue: 0,
     minimumSlderValue: 0,
     maximumSliderValue: 100,
     showController: false,
@@ -24,6 +25,11 @@ class VideoPlayer extends Component {
   };
 
   onPlaybackStatusUpdate = (status) => {
+    // console.log('status of vedio', status);
+    this.setState({
+      sliderValue: (status.positionMillis / status.durationMillis),
+      countDownValue: Math.floor((status.durationMillis - status.positionMillis) / 1000),
+    });
     if (status.didJustFinish) {
       this.setState({
         didJustFinish: true,
@@ -41,22 +47,28 @@ class VideoPlayer extends Component {
 
   getCoinHelper = () => {
     const { addCoinSuccess } = this.props;
-    this.setState({ addCoinProgressBar: true });
+    this.setState({
+      addCoinProgressBar: true,
+      didJustFinish: false,
+    });
     addCoinSuccess();
   }
 
   render() {
-    const { shouldPlay, sliderValue, didJustFinish, addCoinProgressBar } = this.state;
+    const { shouldPlay, sliderValue, didJustFinish, addCoinProgressBar, countDownValue } = this.state;
     const { modal } = this.props;
     return (
       <View style={styles.videoContainerSyle}>
-        <Video
-          videoURI={modal.addCoinVideoUrl}
+        {modal.videoContent &&
+          (
+          <Video
+          videoContent={modal.videoContent}
           onPlaybackStatusUpdate={this.onPlaybackStatusUpdate}
           shouldPlay={shouldPlay}
           onLoadVideo={this.onLoadVideo}
           onReadyForDisplay={this.onReadyForDisplay}
         />
+        )}
         <View style={{
           justifyContent: 'center',
           alignItems: 'center',
@@ -85,7 +97,7 @@ class VideoPlayer extends Component {
                 onPressIn={() => this.setState({ showController: true })}
                 onPressOut={() => this.setState({ showController: false })}
               >
-                {this.state.showController ? <Controller sliderValue={sliderValue} /> : null }
+                {this.state.showController ? <Controller sliderValue={sliderValue} countDownValue={countDownValue}/> : null }
               </TouchableOpacity>)}
           {didJustFinish ? (
             <View style={styles.iconStyle}>

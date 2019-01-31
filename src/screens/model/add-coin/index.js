@@ -7,8 +7,9 @@ class CustomModal extends Component {
   state={ };
 
   render() {
+    const { modal } = this.props;
     return (
-      <Modal {...this.props} title="Video Title" modalShow="modalAddCoinShow">
+      <Modal {...this.props} title={ modal.videoContent.title ? modal.videoContent.title : ''} modalShow="modalAddCoinShow">
         <Content {...this.props} />
       </Modal>
     );

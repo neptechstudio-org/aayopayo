@@ -17,9 +17,10 @@ const statusRenderHelper = (status) => {
   }
 };
 
-const contentHelper = (details, idx) => {
+const contentHelper = (details, idx, updateMainValue) => {
   return (
     <TouchableOpacity
+      onPress={() => updateMainValue('showProductDetails', details.id)}
       key={idx}
       style={{
         backgroundColor: 'white',
@@ -44,23 +45,23 @@ const contentHelper = (details, idx) => {
   );
 };
 
-export default ({ main }) => {
+export default ({ main, updateMainValue }) => {
   return (
     <View style={styles.container}>
-      <View style={{
+      {/* <View style={{
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
         position: 'absolute',
         zIndex: 5,
-        backgroundColor: '#FFA5009f',
+        backgroundColor: '#FFA500',
         borderTopRightRadius: 5,
         borderBottomRightRadius: 5,
       }}
       >
-        <Text style={{ color: '#fff', fontSize: 10, marginRight: 5, marginLeft: 5 }}>Featured Products</Text>
-      </View>
+        <Text style={{ color: '#fff', fontSize: 15, marginRight: 5, marginLeft: 5 }}>Featured</Text>
+      </View> */}
       <ScrollView nestedScrollEnabled horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{justifyContent: "center", alignItems: "center"}}>
-        {main.featuredProduct.map((details, idx) => contentHelper(details, idx))}
+        {main.featuredProduct.map((details, idx) => contentHelper(details, idx, updateMainValue))}
       </ScrollView>
     </View>
   );
@@ -71,6 +72,8 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.98,
     height: 100,
     borderBottomWidth: 1,
+    marginTop: 10,
+    backgroundColor: 'white',
     alignSelf: 'center',
     elevation: 1,
     borderBottomColor: '#f5f5f5',

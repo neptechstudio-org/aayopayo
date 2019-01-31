@@ -7,9 +7,12 @@ export default () => {
   return (
     <View style={{
       width: SCREEN_WIDTH,
+      padding: 5,
+      justifyContent: 'center',
+      alignItems: 'center',
     }}
     >
-      <View style={{
+      {/* <View style={{
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
         position: 'absolute',
@@ -19,12 +22,12 @@ export default () => {
         borderBottomRightRadius: 5,
       }}
       >
-        <Text style={{ color: '#fff', fontSize: 15, marginRight: 5, marginLeft: 5 }}>Bumper Product</Text>
-      </View>
+        <Text style={{ color: '#fff', fontSize: 15, marginRight: 5, marginLeft: 5 }}>Bumper</Text>
+      </View> */}
       <Image
         source={{ uri: 'https://www.aayopayo.com/img/uploads/images/70efdf2ec9b086079795c442636b55fb.jpg' }}
         style={{
-          height: 300,
+          height: 250,
           width: SCREEN_WIDTH * 0.98,
           borderWidth: 1,
           borderColor: '#757575',

@@ -4,14 +4,23 @@ import { Icon, Badge } from 'native-base';
 import { APP_COLOR } from '../../../../config';
 
 const pressHandler = (navigationState, navigation, props, content) => {
-  console.log('update model value for ', props.updateModalValue);
+  // console.log('update model value for ', props.updateModalValue);
   switch (navigationState) {
     case 'OrderNotification':
       navigation.closeDrawer();
-      props.fetchNotifications();
+      if (props.modal.notificationContent === null) {
+        props.fetchNotifications();
+      } else {
+        props.updateModalValue('modalNotificationShow', true);
+      }
       break;
     case 'orderHistory':
-      props.buttonPressHandler(content);
+      navigation.closeDrawer();
+      if (props.modal.myBidContent === null) {
+        props.fetchMyBid();
+      } else {
+        props.updateModalValue('showMyBid', true);
+      }
       break;
     case 'ProfileSetting':
       navigation.closeDrawer();
