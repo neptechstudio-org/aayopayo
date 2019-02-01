@@ -11,7 +11,7 @@ const INITIAL_MODAL_STATE = {
   notificationReadStatus: false,
   showProfileModal: false,
   loading: false,
-  videoContent: null,
+  videoContent: {},
   addCoinSuccess: false,
   error: '',
   notificationContent: null,

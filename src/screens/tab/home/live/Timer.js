@@ -14,6 +14,8 @@ const parseDateAndTime = (date, time) => {
 class Timer extends Component {
   state={ time: null };
 
+
+
   componentDidMount() {
     const { endDate, endTime } = this.props;
     const secs = DateFns.differenceInSeconds(
@@ -31,11 +33,18 @@ class Timer extends Component {
     this.timer();
   }
 
+  componentDidUpdate() {
+    const { onTimerFinish, name} = this.props;
+    const { time } = this.state;
+    if (name === 'live' && time === 0) {
+      onTimerFinish();
+    }
+  }
+
   componentWillUnmount() {
     const { context, name } = this.props;
     reactTimer.clearInterval(context, name);
   }
-
 
   timerRenderHelper = () => {
     const { time } = this.state;
@@ -44,12 +53,12 @@ class Timer extends Component {
     const hr = Math.floor((time % 86400) / (60 * 60));
     const min = Math.floor(((time % 86400) % (60 * 60)) / 60);
     const sec = ((time % 86400) % (60 * 60)) % 60;
-
     return `${day}d ${hr}hr: ${min}m: ${sec}s`;
   };
 
   timer = () => {
     const { context, name } = this.props;
+    // console.log('context of current timer=', context,'name of timer', name);
     return reactTimer.setInterval(context, name, () => {
       const { time } = this.state;
       if (time > 0) {
@@ -64,7 +73,10 @@ class Timer extends Component {
     const { time } = this.state;
     return (
       <View>
-        <Text style={{ color: '#039BE5', fontSize: 15 }}>{this.timerRenderHelper()}</Text>
+        {time > 0
+          ? <Text style={{ color: '#039BE5', fontSize: 15 }}>{this.timerRenderHelper()}</Text>
+          : <Text style={{ color: '#039BE5', fontSize: 15 }}> Time Up</Text>
+        }
       </View>
     );
   }

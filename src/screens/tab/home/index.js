@@ -20,33 +20,18 @@ import ClosedProduct from './closed-product';
 import ViewMore from './view-more';
 import PlayNow from '../../model/play-now';
 import MyBid from '../../model/my-bid';
+import FloatingAction from '../../../common/FloatingAction';
 
 class index extends Component {
   state = { active: false };
 
   render() {
-    console.log('featured product details', this.props.main.myBidAmount);
+    // console.log('featured product details', this.props.main.myBidAmount);
+    const { main } = this.props;
     return (
       <Container style={{ backgroundColor: '#f5f5f5' }}>
         <Header {...this.props} />
-        <Fab
-          active={this.state.active}
-          direction="up"
-          containerStyle={{ flexWrap: 'wrap' }}
-          style={{ backgroundColor: 'red', zIndex: 20 }}
-          position="bottomRight"
-          onPress={() => this.setState({ active: !this.state.active })}>
-          <Icon name={this.state.active ? 'close' : 'settings' } />
-          <Button style={{ backgroundColor: '#34A34F' }}>
-            <Icon name="logo-whatsapp" />
-          </Button>
-          <Button style={{ backgroundColor: '#3B5998' }}>
-            <Icon name="logo-facebook" />
-          </Button>
-          <Button disabled style={{ backgroundColor: '#DD5144' }}>
-            <Icon name="mail" />
-          </Button>
-        </Fab>
+        {/* <FloatingAction {...this.props} /> */}
         <ScrollView showsHorizontalScrollIndicator={false}>
           <ImageSlider {...this.props} />
           <FeaturedProduct {...this.props} />
@@ -58,13 +43,13 @@ class index extends Component {
           <View style={{ height: 5 }} />
           <ClosedProduct {...this.props} />
           <ContactUs {...this.props} />
-          <NotificationModal {...this.props} />
-          <AddCoin {...this.props} />
           <ProductDetails {...this.props} />
           <ProfileSetting {...this.props} />
           <ViewMore {...this.props} />
-          <PlayNow {...this.props} />
-          <MyBid {...this.props} />
+          {main.userId && <PlayNow {...this.props} />}
+          {main.userId && <MyBid {...this.props} />}
+          {main.userId && <NotificationModal {...this.props} />}
+          {main.userId && <AddCoin {...this.props} />}
         </ScrollView>
       </Container>
     );

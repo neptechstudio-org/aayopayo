@@ -7,6 +7,7 @@ class CustomModal extends Component {
   state={ };
 
   render() {
+    // console.log('add coin mount', this.props.modal.videoContent);
     const { modal } = this.props;
     return (
       <Modal {...this.props} title={ modal.videoContent.title ? modal.videoContent.title : ''} modalShow="modalAddCoinShow">

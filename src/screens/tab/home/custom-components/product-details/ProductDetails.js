@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, ScrollView } from 'react-native';
-import { View, Text, Button, Badge } from 'native-base';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../../../../config';
+import { View, Text, Button, Badge, Icon } from 'native-base';
 import DateTimeFormator from '../../../../../common/functions/DateTimeFormator';
 import Timer from '../../live/Timer';
 import Bidders from './Bidders';
 
 class ProductDetails extends Component {
   state = {};
+
+  onTimerFinish = () => {
+    const { main, fetchProductDetails } = this.props;
+    fetchProductDetails(main.showProductDetails);
+  }
 
   render() {
     const { main, updateModalValue } = this.props;
@@ -59,13 +63,23 @@ class ProductDetails extends Component {
           {status === 'live'
             && (
               <View style={{ alignSelf: 'center' }}>
-                <Timer endDate="2019-12-17" endTime="20:44:00" context={this.context} name={status} />
+                <Timer endDate={end_date} endTime={end_time} context={this.context} name={status} {...this.props} onTimerFinish={this.onTimerFinish} />
               </View>
             )
             }
           {status === 'live'
           && (
-            <Button disabled={main.myBidAmount !== null} full success onPress={() => updateModalValue('modalPlaynowShow', true)} style={{ marginTop: 10 }}>
+            <Button
+              disabled={(main.myBidAmount === null && main.userId === null) || (main.myBidAmount !== null && main.userId !== null)}
+              full
+              success
+              onPress={() => {
+                updateModalValue('addBidSuccess', '');
+                updateModalValue('bidError', '');
+                updateModalValue('modalPlaynowShow', true);
+              }}
+              style={{ marginTop: 10 }}
+            >
               <Text>
                 {main.myBidAmount !== null ? `You already have bid for this product\n Your bid amount : ${main.myBidAmount}` : 'Playnow'}
               </Text>
@@ -77,13 +91,21 @@ class ProductDetails extends Component {
           <View style={{ marginTop: 10, marginBottom: 20 }}>
             {main.bidders.length !== 0
               ? (
-                <View>
-                  <Text style={{ marginBottom: 20 }}>{`Total number of bidders: ${main.bidders.length}`}</Text>
-                  <Bidders bidders={main.bidders} userId={main.userId} />
-                </View>
+                main.userId && (
+                  <View>
+                    <Text style={{ marginBottom: 20 }}>{`Total number of bidders: ${main.bidders.length}`}</Text>
+                    <Bidders bidders={main.bidders} userId={main.userId} />
+                  </View>
+                )
               )
-              : (<Text>{`Total number Of bidders: ${main.bidders.length}`}</Text>)
+              : main.userId && (<Text>{`Total number Of bidders: ${main.bidders.length}`}</Text>)
             }
+            {!main.userId && (
+              <Text style={{ color: 'red' }}>
+                <Icon name="warning" style={{ color: 'red' }} />
+                {`   Please login to Play and see bidding details`} {/* eslint-disable-line */}
+              </Text>
+            )}
           </View>
         )}
         </View>

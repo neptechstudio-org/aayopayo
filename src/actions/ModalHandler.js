@@ -140,7 +140,7 @@ export const doBidHandler = () => {
     dispatch(updateModalValue('bidError', ''));
     dispatch(updateModalValue('addBidSuccess', ''));
     try {
-      const { userId, showProductDetails, bidders } = getState().main;
+      const { userId, showProductDetails, bidders, userCoins } = getState().main;
       const { bidPrice } = getState().registerForm;
       // console.log('do bid handler called', userId.id, showProductDetails, bidPrice);
       const bidRes = await axios.post('https://www.aayopayo.com/app/app_do_bid.php', querystring.stringify({ auth: 'AAYOPAAYOHULLAWERQUIPCSTHKVXEMV', id: showProductDetails, uid: userId.id, bid: bidPrice }));
@@ -151,8 +151,9 @@ export const doBidHandler = () => {
       } else {
         dispatch(updateMainValue('bidders', [...bidders, { fullname: userId.name, userid: userId.id, bidamount: bidPrice }]));
         dispatch(updateMainValue('myBidAmount', bidPrice));
+        dispatch(updateMainValue('userCoins', parseInt(userCoins, 10) - parseInt(bidPrice, 10)));
         dispatch(updateFormValue('bidPrice', ''));
-        dispatch(updateModalValue('modalPlaynowShow', false));
+        // dispatch(updateModalValue('modalPlaynowShow', false));
         dispatch(updateModalValue('addBidSuccess', bidRes.data.successmsg));
       }
     } catch (e) {

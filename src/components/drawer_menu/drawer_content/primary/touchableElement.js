@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, Linking } from 'react-native';
+import { TouchableOpacity, View, Text, Linking, Alert } from 'react-native';
 import { Icon, Badge } from 'native-base';
 import { APP_COLOR } from '../../../../config';
 
@@ -7,24 +7,36 @@ const pressHandler = (navigationState, navigation, props, content) => {
   // console.log('update model value for ', props.updateModalValue);
   switch (navigationState) {
     case 'OrderNotification':
-      navigation.closeDrawer();
-      if (props.modal.notificationContent === null) {
-        props.fetchNotifications();
+      if (props.main.userId) {
+        navigation.closeDrawer();
+        if (props.modal.notificationContent === null) {
+          props.fetchNotifications();
+        } else {
+          props.updateModalValue('modalNotificationShow', true);
+        }
       } else {
-        props.updateModalValue('modalNotificationShow', true);
+        Alert.alert('Please login to see your details');
       }
       break;
     case 'orderHistory':
-      navigation.closeDrawer();
-      if (props.modal.myBidContent === null) {
-        props.fetchMyBid();
+      if (props.main.userId) {
+        navigation.closeDrawer();
+        if (props.modal.myBidContent === null) {
+          props.fetchMyBid();
+        } else {
+          props.updateModalValue('showMyBid', true);
+        }
       } else {
-        props.updateModalValue('showMyBid', true);
+        Alert.alert('Please login to see your details');
       }
       break;
     case 'ProfileSetting':
-      navigation.closeDrawer();
-      props.updateModalValue('showProfileModal', true);
+      if (props.main.userId) {
+        navigation.closeDrawer();
+        props.updateModalValue('showProfileModal', true);
+      } else {
+        Alert.alert('Please login to change your settings');
+      }
       break;
     case 'DeliveryAddress':
       props.buttonPressHandler(content);
