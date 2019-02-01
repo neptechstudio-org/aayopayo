@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { UPDATE_MAIN_VALUE } from './types';
+import { BASE_URL, AUTH_KEY } from '../config';
 
 const objectParser = (obj, clip) => {
   const array = Object.values(obj);
@@ -15,23 +16,23 @@ export const updateMainValue = (key, value) => ({
 
 export const fetchProduct = () => async (dispatch, getState) => {
   try {
-    const liveData = await axios.get('https://www.aayopayo.com/app/app_get_products.php?type=Live&auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV');
+    const liveData = await axios.get(`${BASE_URL}/app_get_products.php?type=Live&auth=${AUTH_KEY}`);
     if (!liveData.data.error) {
       dispatch(updateMainValue('liveProduct', objectParser(liveData.data, 3)));
     }
-    const UpcomingData = await axios.get('https://www.aayopayo.com/app/app_get_products.php?type=up&auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV');
+    const UpcomingData = await axios.get(`${BASE_URL}/app_get_products.php?type=up&auth=${AUTH_KEY}`);
     if (!UpcomingData.data.error) {
       dispatch(updateMainValue('upcomingProduct', objectParser(UpcomingData.data, 3)));
     }
-    const closedData = await axios.get('https://www.aayopayo.com/app/app_get_products.php?type=End&auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV');
+    const closedData = await axios.get(`${BASE_URL}/app_get_products.php?type=End&auth=${AUTH_KEY}`);
     if (!UpcomingData.data.error) {
       dispatch(updateMainValue('closedProduct', objectParser(closedData.data, 3)));
     }
-    const featuredProduct = await axios.get('https://www.aayopayo.com/app/app_get_featured_products.php?auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV&type=all');
+    const featuredProduct = await axios.get(`${BASE_URL}/app_get_featured_products.php?auth=${AUTH_KEY}&type=all`);
     if (!featuredProduct.data.error) {
       dispatch(updateMainValue('featuredProduct', objectParser(featuredProduct.data, 3)));
     }
-    const imageSlider = await axios.get('https://www.aayopayo.com/app/app_get_slider_list.php?auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV');
+    const imageSlider = await axios.get(`${BASE_URL}/app_get_slider_list.php?auth=${AUTH_KEY}`);
     if (!imageSlider.data.error) {
       dispatch(updateMainValue('imageSlider', objectParser(imageSlider.data, 3)));
     }
@@ -46,7 +47,7 @@ const checkMyBidHelper = (dispatch, getState, bidders) => {
   const userAvailabilty = bidders.some(data => data.userid === userId.id);
   if (userAvailabilty) {
     const myBids = bidders.filter(data => data.userid === userId.id);
-    dispatch(updateMainValue('myBidAmount', myBids.bidamount));
+    dispatch(updateMainValue('myBidAmount', myBids[0].bidamount));
   } else {
     dispatch(updateMainValue('myBidAmount', null));
   }
@@ -55,7 +56,7 @@ const checkMyBidHelper = (dispatch, getState, bidders) => {
 export const fetchProductDetails = pid => async (dispatch, getState) => {
   try {
     dispatch(updateMainValue('loading', true));
-    const res = await axios.get(`https://www.aayopayo.com/app/app_get_product_details.php?auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV&id=${pid}`);
+    const res = await axios.get(`${BASE_URL}/app_get_product_details.php?auth=${AUTH_KEY}&id=${pid}`);
     const { data } = res;
     if (!data.error) {
       dispatch(updateMainValue('productDetails', data));
@@ -63,8 +64,8 @@ export const fetchProductDetails = pid => async (dispatch, getState) => {
       dispatch(updateMainValue('loading', false));
       dispatch(updateMainValue('error', data.message));
     }
-    const bidRes = await axios.get(`https://www.aayopayo.com/app/app_get_bid_list.php?id=${pid}&auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV`);
-    console.log('bid res', bidRes.data, pid);
+    const bidRes = await axios.get(`${BASE_URL}/app_get_bid_list.php?id=${pid}&auth=${AUTH_KEY}`);
+    // console.log('bid res', bidRes.data, pid);
     dispatch(updateMainValue('loading', false));
     if (!bidRes.data.error) {
       dispatch(updateMainValue('bidders', objectParser(bidRes.data, 4)));

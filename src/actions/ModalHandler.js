@@ -5,6 +5,7 @@ import { UPDATE_MODAL_VALUE } from './types';
 import { BASE_URL } from '../config';
 import { setAsyncData } from '../common/AsycstrorageAaayopayo';
 import { updateMainValue } from './index';
+import { updateFormValue } from './FormHandler';
 
 const objectParser = (obj, clip) => {
   const array = Object.values(obj);
@@ -136,18 +137,23 @@ export const addCoinSuccess = () => {
 export const doBidHandler = () => {
   return async (dispatch, getState) => {
     dispatch(updateModalValue('bidLoading', true));
+    dispatch(updateModalValue('bidError', ''));
+    dispatch(updateModalValue('addBidSuccess', ''));
     try {
-      const { userId, showProductDetails } = getState().main;
+      const { userId, showProductDetails, bidders } = getState().main;
       const { bidPrice } = getState().registerForm;
       // console.log('do bid handler called', userId.id, showProductDetails, bidPrice);
       const bidRes = await axios.post('https://www.aayopayo.com/app/app_do_bid.php', querystring.stringify({ auth: 'AAYOPAAYOHULLAWERQUIPCSTHKVXEMV', id: showProductDetails, uid: userId.id, bid: bidPrice }));
       dispatch(updateModalValue('bidLoading', false));
-      // console.log('response of bid res', bidRes.data);
+      console.log('response of bid res', bidRes.data);
       if (bidRes.data.error) {
         dispatch(updateModalValue('bidError', bidRes.data.message));
-      }
-      if (bidRes.data.success !== 'flase') {
-        dispatch(updateModalValue('addBidSuccess', 'You are bidded successfully'));
+      } else {
+        dispatch(updateMainValue('bidders', [...bidders, { fullname: userId.name, userid: userId.id, bidamount: bidPrice }]));
+        dispatch(updateMainValue('myBidAmount', bidPrice));
+        dispatch(updateFormValue('bidPrice', ''));
+        dispatch(updateModalValue('modalPlaynowShow', false));
+        dispatch(updateModalValue('addBidSuccess', bidRes.data.successmsg));
       }
     } catch (e) {
       throw e;
@@ -161,7 +167,7 @@ export const fetchMyBid = () =>  async (dispatch, getState) => {
     dispatch(updateModalValue('showMyBid', true));
     dispatch(updateModalValue('loading', true));
     const myBidRes = await axios.get(`${BASE_URL}/app_my_bids.php?auth=AAYOPAAYOHULLAWERQUIPCSTHKVXEMV&uid=${userId.id}`);
-    console.log('my bid fetch response', myBidRes.data);
+    // console.log('my bid fetch response', myBidRes.data);
     dispatch(updateModalValue('loading', false));
     if (!myBidRes.data.error) {
       const myBidArray = objectParser(myBidRes.data, 3);

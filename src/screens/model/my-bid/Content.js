@@ -1,6 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
-import { View, Text, Thumbnail, Container, Content } from 'native-base';
+import {
+  Text, Thumbnail, Container, Content,
+} from 'native-base';
 
 const bidRenderHelper = (bid, idx, updateMainValue) => {
   const backGroundColor = idx % 2 === 0 ? '#f5f5f5' : '#fff';
@@ -31,7 +34,7 @@ const bidRenderHelper = (bid, idx, updateMainValue) => {
   );
 };
 
-export default ({ modal, updateMainValue }) => {
+const CustomContent = ({ modal, updateMainValue }) => {
   const { myBidContent } = modal;
   return (
     <Container>
@@ -40,4 +43,10 @@ export default ({ modal, updateMainValue }) => {
       </Content>
     </Container>
   );
+};
+
+export default CustomContent;
+CustomContent.propTypes = {
+  modal: PropTypes.objectOf(PropTypes.any).isRequired,
+  updateMainValue: PropTypes.func.isRequired,
 };

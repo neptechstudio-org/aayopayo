@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
 import { View, Spinner } from 'native-base';
 import ModalHeader from './Header';
@@ -31,5 +32,9 @@ class ContactUs extends Component {
     );
   }
 }
+
+ContactUs.propTypes = {
+  modal: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 export default ContactUs;

@@ -11,7 +11,7 @@ const CustomContent = ({ main, modal, registerForm, updateFormValue, doBidHandle
       <Text style={{ color: '#000' }}>
         {`You have: ${main.userCoins} Coins`}
       </Text>
-      <Text style={{ fontWeight: 'bold' }}>{`Minumum bid amount: ${56}`}</Text>
+      <Text style={{ fontWeight: 'bold' }}>{`Minumum bid amount: ${main.productDetails.mincredit}`}</Text>
       <Text style={{ color: '#757575', fontSize: 15 }}>Place the amout you want to bid.</Text>
       <View style={{ width: 200, marginTop: 20 }}>
         <Input registerForm={registerForm} updateFormValue={updateFormValue} content={{ label: 'Bid Price', value: 'bidPrice' }} />
@@ -25,7 +25,7 @@ const CustomContent = ({ main, modal, registerForm, updateFormValue, doBidHandle
         <Button
           onPress={() => {
             doBidHandler();
-            fetchProductDetails(main.showProductDetails);
+            // fetchProductDetails(main.showProductDetails);
           }}
           success
           style={{ height: 30, alignSelf: 'center' }}

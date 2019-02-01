@@ -16,7 +16,7 @@ export const signInButtonPressHandler = async (state, dispatch, navigation, upda
       const response = await axios.post('https://www.aayopayo.com/app/app_login.php', querystring.stringify({ email, password, auth: key, type: 'user' }));
       dispatch(updateFormValue('loading', false));
       const { data } = response;
-      // console.log('login response data', data);
+      console.log('login response data', data);
       if (!data.error) {
         await multiSetAsync([
           ['LOGIN_STATUS', 'true'],

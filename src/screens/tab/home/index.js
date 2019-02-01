@@ -25,7 +25,7 @@ class index extends Component {
   state = { active: false };
 
   render() {
-    console.log('featured product details', this.props.main.userCoins);
+    console.log('featured product details', this.props.main.myBidAmount);
     return (
       <Container style={{ backgroundColor: '#f5f5f5' }}>
         <Header {...this.props} />
