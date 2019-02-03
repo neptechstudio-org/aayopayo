@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Linking } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -19,7 +20,7 @@ class Index extends Component {
   state={};
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, updateFormValue } = this.props;
     // console.log(this.props.registerForm);
     return (
       <Container>
@@ -29,12 +30,24 @@ class Index extends Component {
           <View>
             <Form contents={sinInStructure()} {...this.props} />
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-              <Text style={{ color: 'blue' }} onPress={() => navigation.navigate('ForgotPassword')}>
+              <Text style={{ color: 'blue' }} onPress={() => Linking.openURL('https://www.aayopayo.com/forgot.php')}>
                 Forgot your password ?
               </Text>
               <Text style={{ marginTop: 20 }}>
                 Do not have account?
-                <Text style={{ color: 'blue', margin: 10 }} onPress={() => navigation.navigate('RegisterNewAccount')}>
+                <Text
+                  style={{ color: 'blue', margin: 10 }}
+                  onPress={() => {
+                    updateFormValue('full_name', '');
+                    updateFormValue('email', '');
+                    updateFormValue('password', '');
+                    updateFormValue('cpassword', '');
+                    updateFormValue('phone_number', '');
+                    updateFormValue('error', '');
+                    updateFormValue('dob', '');
+                    navigation.navigate('RegisterNewAccount');
+                  }}
+                >
                 Sign Up
                 </Text>
               </Text>

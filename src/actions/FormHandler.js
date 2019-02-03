@@ -25,7 +25,7 @@ export const buttonPressHandler = (content, navigation) => (
         nextButtonPressHelper(getState(), navigation, dispatch, updateFormValue);
         break;
       case 'Submit':
-        submitButtonPressHelper(getState(), dispatch, updateFormValue);
+        submitButtonPressHelper(getState(), dispatch, updateFormValue, navigation);
         break;
       case 'SignIn':
         signInButtonPressHandler(getState(), dispatch, navigation, updateFormValue, updateMainValue);

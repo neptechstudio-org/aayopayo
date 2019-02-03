@@ -9,7 +9,7 @@ class ContactUs extends Component {
   state = {};
 
   render() {
-    const { modal } = this.props;
+    const { modal, updateModalValue } = this.props;
     // console.log('modal value in contact us page', modal);
     return (
       <Modal
@@ -17,6 +17,7 @@ class ContactUs extends Component {
         isVisible={modal.showMyBid}
         animationInTiming={500}
         animationOutTiming={500}
+        onBackButtonPress={() => updateModalValue('showMyBid', false)}
         style={{ flex: 1, backgroundColor: '#fff', margin: 0 }}
       >
         <ModalHeader {...this.props} />
@@ -35,6 +36,7 @@ class ContactUs extends Component {
 
 ContactUs.propTypes = {
   modal: PropTypes.objectOf(PropTypes.any).isRequired,
+  updateModalValue: PropTypes.func.isRequired,
 };
 
 export default ContactUs;

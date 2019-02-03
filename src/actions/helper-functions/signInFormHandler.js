@@ -14,9 +14,8 @@ export const signInButtonPressHandler = async (state, dispatch, navigation, upda
   if ((email !== '') && (password !== '')) {
     try {
       const response = await axios.post('https://www.aayopayo.com/app/app_login.php', querystring.stringify({ email, password, auth: key, type: 'user' }));
-      dispatch(updateFormValue('loading', false));
       const { data } = response;
-      console.log('login response data', data);
+      // console.log('login response data', data);
       if (!data.error) {
         await multiSetAsync([
           ['LOGIN_STATUS', 'true'],
@@ -26,13 +25,14 @@ export const signInButtonPressHandler = async (state, dispatch, navigation, upda
           ['LOGIN_SESSION', data.ltext],
           ['USER_PHONE', `${data.phone}`],
         ]);
-        dispatch(updateFormValue('email', ''));
-        dispatch(updateFormValue('password', ''));
         dispatch(updateFormValue('remember', false));
         dispatch(updateFormValue('loginStatus', true));
         dispatch(updateMainValue('userId', { name: data.fname, email: data.email, id: data.uid, phoneNo: data.phone }));
         await fetchCoins(dispatch, state, updateMainValue, data.uid);
         await fetchNotifications();
+        dispatch(updateFormValue('loading', false));
+        dispatch(updateFormValue('email', ''));
+        dispatch(updateFormValue('password', ''));
         navigation.navigate('MainScreen');
         if (remember) {
           setAsyncData('LOGIN_REMEMBER', true, dispatch, updateFormValue);
@@ -43,10 +43,11 @@ export const signInButtonPressHandler = async (state, dispatch, navigation, upda
     } catch (e) {
       dispatch(updateFormValue('loading', false));
       dispatch(updateFormValue('error', 'Authentication Faild'));
-      console.log('error in sing in ', e);
+      // console.log('error in sing in ', e);
       throw e;
     }
   } else {
+    dispatch(updateFormValue('loading', false));
     dispatch(updateFormValue('error', 'Fill all the fields'));
   }
 };

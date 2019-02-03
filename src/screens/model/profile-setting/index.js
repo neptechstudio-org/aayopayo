@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-native-modal';
+import PropTypes from 'prop-types';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ModalHeader from './Header';
 import ModalContent from './Content';
@@ -8,7 +9,7 @@ class ContactUs extends Component {
   state = {};
 
   render() {
-    const { modal } = this.props;
+    const { modal, updateModalValue } = this.props;
     // console.log('modal value in contact us page', modal);
     return (
       <Modal
@@ -16,6 +17,7 @@ class ContactUs extends Component {
         isVisible={modal.showProfileModal}
         animationInTiming={500}
         animationOutTiming={500}
+        onBackButtonPress={() => updateModalValue('showProfileModal', false)}
         style={{ flex: 1, backgroundColor: '#fff', margin: 0 }}
       >
         <ModalHeader {...this.props} />
@@ -26,5 +28,8 @@ class ContactUs extends Component {
     );
   }
 }
-
+ContactUs.propTypes = {
+  modal: PropTypes.objectOf(PropTypes.any).isRequired,
+  updateModalValue: PropTypes.func.isRequired,
+};
 export default ContactUs;

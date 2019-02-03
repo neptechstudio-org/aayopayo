@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Container, View, Fab, Icon, Button,
+  Container, View,
 } from 'native-base';
 import { ScrollView } from 'react-native';
 import { connect } from 'react-redux';

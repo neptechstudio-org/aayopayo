@@ -3,7 +3,7 @@ import { TouchableOpacity, View, Text, Linking, Alert } from 'react-native';
 import { Icon, Badge } from 'native-base';
 import { APP_COLOR } from '../../../../config';
 
-const pressHandler = (navigationState, navigation, props, content) => {
+const pressHandler = (navigationState, navigation, props, content, updateFormValue) => {
   // console.log('update model value for ', props.updateModalValue);
   switch (navigationState) {
     case 'OrderNotification':
@@ -49,6 +49,10 @@ const pressHandler = (navigationState, navigation, props, content) => {
       props.updateModalValue('modalContactuShow', true);
       break;
     case 'SignIn':
+      props.updateFormValue('error', '');
+      props.updateFormValue('loading', false);
+      props.updateFormValue('success', '');
+      props.updateFormValue('password', '');
       navigation.navigate(navigationState, navigation);
       break;
     case 'SignOut':
