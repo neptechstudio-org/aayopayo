@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import nativeBaseHandler from '../common/nativeBaseHander';
 import TabScreen from './tab/home';
 import * as actions from '../actions';
-import { getAsyncData } from '../common/AsycstrorageAaayopayo';
+import { getAsyncData, multiGetAsync } from '../common/AsycstrorageAaayopayo';
 
 class index extends Component {
   static navigationOptions = {
@@ -16,6 +16,8 @@ class index extends Component {
   async componentWillMount() {
     const { updateFormValue, fetchProduct, updateMainValue, updateModalValue} = this.props;
     await nativeBaseHandler();
+    const localStorage = await getAsyncData('LIVE_PRODUCTS'); // 'CLOSED_PRODUCTS', 'FEATURED_PRODUCTS', 'UPCOMING_PRODUCTS', 'IMGAE_SLIDER']);
+    console.log('local storage products', JSON.parse(localStorage));
     await fetchProduct();
     const loginStatus = await getAsyncData('LOGIN_STATUS');
     const loginId = await getAsyncData('USER_ID');
@@ -36,6 +38,8 @@ class index extends Component {
     }
     this.setState({ renderMain: false });
   }
+
+  objectParseHelper = arr => JSON.parse(arr).map(obj => JSON.parse(obj));
 
   render() {
     const { renderMain } = this.state;

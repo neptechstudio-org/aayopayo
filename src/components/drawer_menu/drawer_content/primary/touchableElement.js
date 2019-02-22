@@ -70,7 +70,7 @@ const touchableElement = (content, id, navigation, props) => {
       onPress={() => pressHandler(navigationState, navigation, props, content)}
       key={content.label}
       style={{
-        padding: 15,
+        padding: 7,
         alignItems: 'flex-start',
         justifyContent: 'center',
       }}

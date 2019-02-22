@@ -32,7 +32,7 @@ export const contents = (status) => {
     },
 
     {
-      element: 'touchable', iconRight: status ? 'log-out' : 'log-in', label: status ? 'Sign Out' : 'Sign In', iconLeft: null,
+      element: status && 'touchable', iconRight: status && 'log-out', label: status && 'Sign Out', iconLeft: null,
     },
   ];
 };

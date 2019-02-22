@@ -38,6 +38,7 @@ export const signInButtonPressHandler = async (state, dispatch, navigation, upda
           setAsyncData('LOGIN_REMEMBER', true, dispatch, updateFormValue);
         }
       } else {
+        dispatch(updateFormValue('loading', false));
         dispatch(updateFormValue('error', response.data.message));
       }
     } catch (e) {

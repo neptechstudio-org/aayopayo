@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import {
   Header, Left, Icon, Body, Title, Text, View,
@@ -12,36 +12,39 @@ import {
 class DrawerHeader extends Component {
   state = {};
 
-  renderBackGroundImage = (main) => {
-    const { header, contentMessage } = this.props;
+  renderBackGroundImage = () => {
+    const { header, contentMessage, main } = this.props;
     if (header.title === 'Menu') {
       return (
         <View style={{
           width: SCREEN_WIDTH * 0.8,
-          height: SCREEN_HEIGHT * 0.25,
+          height: SCREEN_HEIGHT * 0.2,
           backgroundColor: APP_COLOR,
-          justifyContent: 'space-around',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
         >
-          <Image
-            source={header.logo}
-            resizeMode="stretch"
-            style={{
-              width: SCREEN_WIDTH * 0.8,
-              height: SCREEN_HEIGHT * 0.15,
-            }}
-          />
-          {main.userId && (
-            <View style={{ marginLeft: 10 }}>
-              <Text style={{color: '#fff', fontSize: 12 }}>
-              Name :
-                <Text style={{ color: '#FFF', fontStyle: 'italic', fontSize: 12 }}>{` ${main.userId.name}`}</Text>
-              </Text>
-              <Text style={{ color: '#fff', fontSize: 12 }}>
-              Email :
-                <Text style={{ color: '#FFF', fontStyle: 'italic', fontSize: 12 }}>{` ${main.userId.email}`}</Text>
-              </Text>
+          <Icon name="contact" style={{ color: 'white', fontSize: 80 }} />
+          {main.userId !== null ? (
+            <View style={{ marginLeft: 10, justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={{ color: '#FFF', fontSize: 12, alignItems: 'center' }}>{` ${main.userId.name}`}</Text>
+              <Text style={{ color: '#FFF', fontSize: 12 }}>{` ${main.userId.email}`}</Text>
             </View>
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                this.props.updateFormValue('error', '');
+                this.props.updateFormValue('loading', false);
+                this.props.updateFormValue('success', '');
+                this.props.updateFormValue('password', '');
+                this.props.navigation.navigate('SignIn');
+              }}
+            style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+              <Icon name="log-in" style={{ color: 'white', marginRight: 5 }} />
+              <Text style={{ color: 'white', fontSize: 20 }}>
+              SignIn
+              </Text>
+            </TouchableOpacity>
           )}
         </View>
       );
@@ -96,7 +99,7 @@ class DrawerHeader extends Component {
             </Title>
           </Body>
         </Header>
-        {this.renderBackGroundImage(main)}
+        {this.renderBackGroundImage()}
       </View>
     );
   }
