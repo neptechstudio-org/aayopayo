@@ -11,6 +11,7 @@ const CustomDatePicker = ({ registerForm, updateFormValue }) => (
       placeholder="select date"
       format="YYYY/MM/DD"
       minDate="1960-1-1"
+      androidMode="spinner"
       date={registerForm.dob}
       maxDate="2060-1-1"
       customStyles={{

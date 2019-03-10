@@ -1,4 +1,5 @@
 import axios from 'axios';
+import quesrystring from 'querystring';
 import { UPDATE_MAIN_VALUE } from './types';
 import { BASE_URL, AUTH_KEY } from '../config';
 import { setAsyncData, getAsyncData } from '../common/AsycstrorageAaayopayo';
@@ -45,6 +46,10 @@ export const fetchProduct = () => async (dispatch, getState) => {
       dispatch(updateMainValue('imageSlider', objectParser(imageSlider.data, 3)));
       await setAsyncData('IMAGE_SLIDER', JSON.stringify(objectParser(imageSlider, 3)));
     }
+    const bumperProduct = await axios.post(`${BASE_URL}/get_bumper.php`, quesrystring.stringify({ auth: AUTH_KEY }));
+    if (!bumperProduct.data.error) {
+      dispatch(updateMainValue('bumperProduct', bumperProduct.data));
+    }
   } catch (e) {
     return e;
   }
@@ -52,10 +57,11 @@ export const fetchProduct = () => async (dispatch, getState) => {
 
 const checkMyBidHelper = (dispatch, getState, bidders) => {
   const { userId } = getState().main;
-  // console.log('check my bids', userId, getState().main.bidders);
   const userAvailabilty = bidders.some(data => data.userid === userId.id);
+  console.log('user Availability', userAvailabilty);
   if (userAvailabilty) {
     const myBids = bidders.filter(data => data.userid === userId.id);
+    console.log('my bid', myBids);
     dispatch(updateMainValue('myBidAmount', myBids[0].bidamount));
   } else {
     dispatch(updateMainValue('myBidAmount', null));
@@ -67,23 +73,22 @@ export const fetchProductDetails = pid => async (dispatch, getState) => {
     dispatch(updateMainValue('loading', true));
     const res = await axios.get(`${BASE_URL}/app_get_product_details.php?auth=${AUTH_KEY}&id=${pid}`);
     const { data } = res;
+    console.log('productDetails res', data);
     if (!data.error) {
       dispatch(updateMainValue('productDetails', data));
+      if (data.bid) {
+        dispatch(updateMainValue('bidders', Object.values(data.bid)));
+        checkMyBidHelper(dispatch, getState, Object.values(data.bid));
+        dispatch(updateMainValue('loading', false));
+      } else {
+        dispatch(updateMainValue('bidders', []));
+        checkMyBidHelper(dispatch, getState, []);
+        dispatch(updateMainValue('loading', false));
+      }
+      // console.log(Object.values(data.bid));
     } else {
       dispatch(updateMainValue('loading', false));
       dispatch(updateMainValue('error', data.message));
-    }
-    const bidRes = await axios.get(`${BASE_URL}/app_get_bid_list.php?id=${pid}&auth=${AUTH_KEY}`);
-    // console.log('bid res', bidRes.data, pid);
-    dispatch(updateMainValue('loading', false));
-    if (!bidRes.data.error) {
-      dispatch(updateMainValue('bidders', objectParser(bidRes.data, 4)));
-      checkMyBidHelper(dispatch, getState, objectParser(bidRes.data, 4));
-    } else {
-      dispatch(updateMainValue('loading', false));
-      dispatch(updateMainValue('error', data.message));
-      dispatch(updateMainValue('bidders', objectParser(bidRes.data, 4)));
-      checkMyBidHelper(dispatch, getState, objectParser(bidRes.data, 4));
     }
   } catch (e) {
     dispatch(updateMainValue('loading', false));

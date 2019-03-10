@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content } from 'native-base';
+import { Container, Content, Card } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import renderScreenHeader from '../../common/ScreenHeader';
@@ -20,8 +20,10 @@ class PersonalDetails extends Component {
     return (
       <Container>
         {renderScreenHeader('Enter your personal details', navigation)}
-        <Content>
-          <Form contents={personalStructure()} {...this.props} />
+        <Content style={{ padding: 10 }}>
+          <Card style={{ padding: 20 }}>
+            <Form contents={personalStructure()} {...this.props} />
+          </Card>
         </Content>
       </Container>
     );

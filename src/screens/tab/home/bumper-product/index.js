@@ -1,39 +1,38 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
-import { View, Text } from 'native-base';
+import { Image, TouchableOpacity } from 'react-native';
+import { View, Text, Card } from 'native-base';
 import { SCREEN_HEIGHT, SCREEN_WIDTH} from '../../../../config';
 
-export default () => {
+export default (props) => {
+  const { main, updateMainValue } = props;
   return (
-    <View style={{
-      width: SCREEN_WIDTH,
-      padding: 5,
-      justifyContent: 'center',
-      alignItems: 'center',
+    <Card style={{
+      padding: 2,
+      margin: 5,
+      backgroundColor: 'white',
     }}
     >
-      {/* <View style={{
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-        position: 'absolute',
-        zIndex: 5,
-        backgroundColor: '#FFA500',
-        borderTopRightRadius: 5,
-        borderBottomRightRadius: 5,
-      }}
-      >
-        <Text style={{ color: '#fff', fontSize: 15, marginRight: 5, marginLeft: 5 }}>Bumper</Text>
-      </View> */}
-      <Image
-        source={{ uri: 'https://www.aayopayo.com/img/uploads/images/70efdf2ec9b086079795c442636b55fb.jpg' }}
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 5, backgroundColor: 'white'}}>
+        <Text style={{ fontSize: 15, marginRight: 5, marginLeft: 5, color: '#000', fontWeight: 'bold' }}>Bumper</Text>
+      </View>
+      <TouchableOpacity
+        onPress={() => updateMainValue('showProductDetails', main.bumperProduct.pid)}
         style={{
-          height: 250,
-          width: SCREEN_WIDTH * 0.98,
-          borderWidth: 1,
-          borderColor: '#757575',
-          alignSelf: 'center',
+          width: SCREEN_WIDTH,
+          padding: 10,
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
-      />
-    </View>
+      >
+        <Image
+          source={{ uri: main.bumperProduct.image }}
+          style={{
+            height: 300,
+            width: SCREEN_WIDTH * 0.98,
+            alignSelf: 'center',
+          }}
+        />
+      </TouchableOpacity>
+    </Card>
   );
 };

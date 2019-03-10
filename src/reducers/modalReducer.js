@@ -19,6 +19,7 @@ const INITIAL_MODAL_STATE = {
   bidError: '',
   bidLoading: false,
   showMybid: false,
+  showBidderList: false,
   myBidContent: null,
 };
 

@@ -3,7 +3,7 @@ import { Linking } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  Container, Content, View, Text,
+  Container, Content, View, Text, Card,
 } from 'native-base';
 import renderScreenHeader from '../../common/ScreenHeader';
 import Form from '../../common/Form';
@@ -23,11 +23,11 @@ class Index extends Component {
     const { navigation, updateFormValue } = this.props;
     // console.log(this.props.registerForm);
     return (
-      <Container>
+      <Container style={{ backgroundColor: '#F3F6EF' }}>
         {renderScreenHeader('Sign In', navigation)}
-        <Content>
+        <Content style={{ padding: 10 }}>
           <ShowInternetConnectionInfo {...this.props} />
-          <View>
+          <Card style={{ padding: 20, paddingBottom: 40 }}>
             <Form contents={sinInStructure()} {...this.props} />
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
               <Text style={{ color: 'blue' }} onPress={() => Linking.openURL('https://www.aayopayo.com/forgot.php')}>
@@ -52,7 +52,7 @@ class Index extends Component {
                 </Text>
               </Text>
             </View>
-          </View>
+          </Card>
         </Content>
       </Container>
     );

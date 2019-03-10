@@ -24,7 +24,7 @@ class LiveCarde extends Component {
             />
           </TouchableOpacity>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 15, fontWeight: '100', color: 'orange' }}>
+            <Text style={{ fontSize: 15, fontWeight: '100', color: 'black' }}>
               {name}
             </Text>
             <Timer endDate={end_date} endTime={end_time} context={this.context} name={name} />

@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
-import { AppLoading } from 'expo';
 import { connect } from 'react-redux';
+import { ScreenOrientation } from 'expo';
+import { Spinner, View, Text, NetInfo, Alert } from 'native-base';
 import nativeBaseHandler from '../common/nativeBaseHander';
 import TabScreen from './tab/home';
 import * as actions from '../actions';
 import { getAsyncData, multiGetAsync } from '../common/AsycstrorageAaayopayo';
+import WelcomeScreen from './welcome-screen';
 
 class index extends Component {
   static navigationOptions = {
     header: null,
+    internetStatus: true,
   }
 
   state={ renderMain: true };
 
   async componentWillMount() {
-    const { updateFormValue, fetchProduct, updateMainValue, updateModalValue} = this.props;
+    const { updateFormValue, fetchProduct, updateMainValue, updateModalValue } = this.props;
     await nativeBaseHandler();
     const localStorage = await getAsyncData('LIVE_PRODUCTS'); // 'CLOSED_PRODUCTS', 'FEATURED_PRODUCTS', 'UPCOMING_PRODUCTS', 'IMGAE_SLIDER']);
     console.log('local storage products', JSON.parse(localStorage));
@@ -36,15 +39,39 @@ class index extends Component {
     } else {
       updateFormValue('loginStatus', false);
     }
+
+    // const screenOrientationlandScape = await ScreenOrientation.allow(ScreenOrientation.Orientation.ALL);
+    // const screenOrientationPortrait =  await ScreenOrientation.allow(ScreenOrientation.Orientation.PORTRAIT);
+    // console.log('orientation', screenOrientationPortrait, screenOrientationlandScape);
     this.setState({ renderMain: false });
+    // NetInfo.getConnectionInfo().then(async (connnectionInfo) => {
+    //   if (connnectionInfo.type === 'none') {
+    //     this.setState({ internetStatus: false });
+    //     Alert.alert('No internet connection please check your internet settings');
+    //   } else {
+    //     this.setState({ internetStatus: true });
+    //   }
+    // });
+    // NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
   }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+  }
+
+  handleConnectivityChange = (isConnected) => {
+    console.log('is internet connected', isConnected);
+    if (isConnected === 'none') {
+      Alert.alert('No internet connection please check your internet settings');
+    }
+  };
 
   objectParseHelper = arr => JSON.parse(arr).map(obj => JSON.parse(obj));
 
   render() {
-    const { renderMain } = this.state;
+    const { renderMain, internetStatus } = this.state;
     if (renderMain) {
-      return <AppLoading />;
+      return <WelcomeScreen {...this.props} />;
     }
     return (
       <TabScreen {...this.props} />

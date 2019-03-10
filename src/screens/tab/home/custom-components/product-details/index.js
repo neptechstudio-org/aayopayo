@@ -19,7 +19,7 @@ class index extends Component {
         animationOutTiming={500}
         onBackButtonPress={() => updateMainValue('showProductDetails', null)}
         isVisible={main.showProductDetails !== null}
-        style={{ flex: 1, backgroundColor: '#fff', margin: 0 }}
+        style={{ flex: 1, backgroundColor: '#F3F6EF', margin: 0 }}
       >
         <ModalHeader {...this.props} />
         <Content {...this.props} />

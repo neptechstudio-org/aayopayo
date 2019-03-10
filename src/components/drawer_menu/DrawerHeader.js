@@ -24,7 +24,7 @@ class DrawerHeader extends Component {
           alignItems: 'center',
         }}
         >
-          <Icon name="contact" style={{ color: 'white', fontSize: 80 }} />
+          <Image style={{ height: 80, width: 80, marginTop: -10 }} source={require('../../../assets/applogo.png')} />
           {main.userId !== null ? (
             <View style={{ marginLeft: 10, justifyContent: 'center', alignItems: 'center' }}>
               <Text style={{ color: '#FFF', fontSize: 12, alignItems: 'center' }}>{` ${main.userId.name}`}</Text>

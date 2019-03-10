@@ -13,14 +13,14 @@ const rowRenderHelper = (row, idx, userId) => (
 export default ({ bidders, userId }) => {
   return (
     <View style={{ flexDirection: 'column' }}>
-      <View style={styles.rowStyle}>
-        <View style={[styles.columnStyle, { flex: 0.1 }]}><Text>S.N</Text></View>
-        <View style={[styles.columnStyle, { flex: 0.8 }]}><Text>Name</Text></View>
-        <View style={[styles.columnStyle, { flex: 0.1 }]}><Text>Bid</Text></View>
+      <View style={{ backgroundColor: 'green', flexDirection: 'row' }}>
+        <View style={[styles.columnStyle, { flex: 0.1 }]}><Text style={{ color: 'white', fontWeight: 'bold' }}>S.N</Text></View>
+        <View style={[styles.columnStyle, { flex: 0.8 }]}><Text style={{ color: 'white', fontWeight: 'bold' }}>Name</Text></View>
+        <View style={[styles.columnStyle, { flex: 0.1 }]}><Text style={{ color: 'white', fontWeight: 'bold' }}>Bid</Text></View>
       </View>
-      <ScrollView style={{ flexGrow: 1, height: 200 }} nestedScrollEnabled>
-        {bidders.map((b, idx) => rowRenderHelper(b, idx, userId))}
-      </ScrollView>
+      <View>
+        {bidders.map((b, idx) => idx < 5 && rowRenderHelper(b, idx, userId))}
+      </View>
     </View>
   );
 };

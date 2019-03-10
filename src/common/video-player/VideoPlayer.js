@@ -37,7 +37,5 @@ const styles = StyleSheet.create({
     height: SCREEN_HEIGHT * 0.5,
     width: SCREEN_WIDTH * 0.9,
     position: 'relative',
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
 });

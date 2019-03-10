@@ -6,6 +6,7 @@ const INITIAL_MAIN_STATE = {
   closedProduct: [],
   featuredProduct: [],
   imageSlider: [],
+  bumperProduct: null,
   userCoins: null,
   userNotification: null,
   loading: false,

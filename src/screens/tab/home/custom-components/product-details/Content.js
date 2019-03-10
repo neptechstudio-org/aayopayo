@@ -4,11 +4,12 @@ import { View, Text, Spinner } from 'native-base';
 import ProductDetails from './ProductDetails';
 
 class Content extends Component {
-  state={};
+  state={ loading: true };
 
   async componentWillMount() {
     const { fetchProductDetails, main } = this.props;
     await fetchProductDetails(main.showProductDetails);
+    this.setState({ loading: false });
   }
 
   render() {
@@ -30,7 +31,7 @@ class Content extends Component {
       );
     }
     return (
-      <ProductDetails {...this.props} />
+      !this.state.loading && <ProductDetails {...this.props} />
     );
   }
 }

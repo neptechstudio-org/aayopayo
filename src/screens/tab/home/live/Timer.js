@@ -69,12 +69,14 @@ class Timer extends Component {
     }, 1000);
   }
 
+
   render() {
     const { time } = this.state;
+    const { productDetails } = this.props;
     return (
       <View>
         {time > 0
-          ? <Text style={{ color: '#039BE5', fontSize: 15 }}>{this.timerRenderHelper()}</Text>
+          ? <Text style={{ color: '#000', fontSize: productDetails ? 16 : 13, fontWeight: 'bold' }}>{this.timerRenderHelper()}</Text>
           : <Text style={{ color: '#039BE5', fontSize: 15 }}> Time Up</Text>
         }
       </View>

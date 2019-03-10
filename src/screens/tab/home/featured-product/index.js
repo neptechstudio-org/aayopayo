@@ -69,7 +69,7 @@ export default ({ main, updateMainValue }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: SCREEN_WIDTH * 0.98,
+    width: '98%',
     height: 100,
     borderBottomWidth: 1,
     marginTop: 10,

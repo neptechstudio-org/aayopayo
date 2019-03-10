@@ -1,12 +1,11 @@
 import React, { PureComponent } from 'react';
 import { View, Text, NetInfo, Dimensions, StyleSheet, ToastAndroid } from 'react-native';
 
-
 const { width } = Dimensions.get('window');
 class ShowInternetConnectionInfo extends PureComponent {
   state = {};
 
-  componentDidMount() {
+  componentWillMount() {
     const { updateFormValue } = this.props;
     NetInfo.getConnectionInfo().then((connnectionInfo) => {
       if (connnectionInfo.type === 'none') {
@@ -14,7 +13,6 @@ class ShowInternetConnectionInfo extends PureComponent {
       } else {
         updateFormValue('internetStatus', true);
       }
-      // ToastAndroid.show(JSON.stringify(connnectionInfo), ToastAndroid.SHORT);
     });
     NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
   }
@@ -25,7 +23,7 @@ class ShowInternetConnectionInfo extends PureComponent {
 
   handleConnectivityChange = (isConnected) => {
     const { updateFormValue } = this.props;
-    ToastAndroid.show(JSON.stringify(isConnected), ToastAndroid.SHORT);
+    // ToastAndroid.show(JSON.stringify(isConnected), ToastAndroid.SHORT);
     updateFormValue('internetStatus', isConnected);
   };
 

@@ -8,14 +8,14 @@ const CustomButtom = ({
   content, navigation, registerForm, buttonPressHandler,
 }) => (
   <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-    <View style={{ justifyContent: 'center', alignItems: 'center', height: 70, padding: 10, margin: 5 }}>
+    <View style={{ justifyContent: 'center', alignItems: 'center', height: 'auto', padding: 10, margin: 5 }}>
       { registerForm.error !== '' ? <Text style={{ color: 'red' }}>{registerForm.error}</Text> : null }
       {registerForm.loading ? <Spinner size="large" /> : null}
       {registerForm.success !== '' ? <Text style={{ color: 'green' }}>{registerForm.success}</Text> : null }
     </View>
     <Button
       // disabled={!registerForm.internetStatus}
-      success
+      danger
       full
       onPress={() => buttonPressHandler(content, navigation)}
     >

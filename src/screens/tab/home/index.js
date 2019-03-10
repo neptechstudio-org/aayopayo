@@ -21,6 +21,7 @@ import ViewMore from './view-more';
 import PlayNow from '../../model/play-now';
 import MyBid from '../../model/my-bid';
 import FloatingAction from '../../../common/FloatingAction';
+import ShowBidderList from '../../model/bidders-list';
 
 class index extends Component {
   state = { active: false };
@@ -29,7 +30,7 @@ class index extends Component {
     // console.log('featured product details', this.props.main.myBidAmount);
     const { main } = this.props;
     return (
-      <Container style={{ backgroundColor: '#f5f5f5' }}>
+      <Container style={{ backgroundColor: '#F3F6EF' }}>
         <Header {...this.props} />
         {/* <FloatingAction {...this.props} /> */}
         <ScrollView showsHorizontalScrollIndicator={false}>
@@ -37,7 +38,7 @@ class index extends Component {
           <FeaturedProduct {...this.props} />
           <LiveProduct {...this.props} />
           <View style={{ height: 5 }} />
-          <BumperProduct {...this.props} />
+          {main.bumperProduct && <BumperProduct {...this.props} /> }
           <View style={{ height: 5 }} />
           <UpcomingProduct {...this.props} />
           <View style={{ height: 5 }} />
@@ -50,6 +51,7 @@ class index extends Component {
           {main.userId && <MyBid {...this.props} />}
           {main.userId && <NotificationModal {...this.props} />}
           {main.userId && <AddCoin {...this.props} />}
+          {main.userId && <ShowBidderList {...this.props} />}
         </ScrollView>
       </Container>
     );

@@ -27,10 +27,10 @@ class ClosedCard extends Component {
             />
           </TouchableOpacity>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 15, fontWeight: '100', color: 'orange' }}>
+            <Text style={{ fontSize: 15, fontWeight: '100', color: 'black' }}>
               {name}
             </Text>
-            <Text style={{ fontSize: 12, color: '#039BE5' }}>{`Ended On: ${DateTimeFormator(end_date, end_time, 'YYYY-MM-DD')} NPT`}</Text>
+            <Text style={{ fontSize: 12, color: '#000', fontWeight: 'bold' }}>{`Ended On: ${DateTimeFormator(end_date, end_time, 'YYYY-MM-DD')} NPT`}</Text>
           </View>
         </ScrollView>
       </Card>

@@ -27,10 +27,10 @@ class LiveCarde extends Component {
             />
           </TouchableOpacity>
           <View style={{ justifyContent: 'center', alignItems: 'center', padding: 5 }}>
-            <Text style={{ fontSize: 15, fontWeight: '100', color: 'orange' }}>
+            <Text style={{ fontSize: 15, fontWeight: '100', color: 'black' }}>
               {name}
             </Text>
-            <Text style={{ fontSize: 12, color: '#039BE5' }}>{DateTimeFormator(start_date, start_time, 'YYYY-MM-DD hh:mm a')}</Text>
+            <Text style={{ fontSize: 12, color: '#000', fontWeight: 'bold' }}>{DateTimeFormator(start_date, start_time, 'YYYY-MM-DD hh:mm a')}</Text>
           </View>
         </ScrollView>
       </Card>
